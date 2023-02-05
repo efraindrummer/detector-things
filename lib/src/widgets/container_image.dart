@@ -11,7 +11,7 @@ class ContainerImage extends StatelessWidget {
       child: Column(
         children: [
           Image.asset("assets/img/logo.png"),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
         ],
       ),
     );
