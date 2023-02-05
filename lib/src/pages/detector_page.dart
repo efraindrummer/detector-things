@@ -21,9 +21,7 @@ class _DetectorPageState extends State<DetectorPage> {
 
   pickImage() async {
     final image = await picker.pickImage(source: ImageSource.camera);
-
     if (image == null) return null;
-
     setState(() {
       _image = File(image.path);
     });
@@ -33,9 +31,7 @@ class _DetectorPageState extends State<DetectorPage> {
 
   pickGalleryImage() async {
     final image = await picker.pickImage(source: ImageSource.gallery);
-
     if (image == null) return null;
-
     setState(() {
       _image = File(image.path);
     });
@@ -48,7 +44,7 @@ class _DetectorPageState extends State<DetectorPage> {
     super.initState();
     _loading = true;
     loadModel().then((value) {
-      //setState(() {});
+      setState(() {});
     });
   }
 
@@ -62,7 +58,7 @@ class _DetectorPageState extends State<DetectorPage> {
 
     final output = await Tflite.runModelOnImage(
       path: image.path,
-      numResults: 2,
+      numResults: 19,
       threshold: 0.5,
       imageMean: 127.5,
       imageStd: 127.5
@@ -75,10 +71,12 @@ class _DetectorPageState extends State<DetectorPage> {
   }
 
   Future loadModel() async {
-    await Tflite.loadModel(
+    final resp = await Tflite.loadModel(
       model: 'assets/model_unquant.tflite',
       labels: 'assets/labels.txt',
     );
+
+    print(resp);
   }
 
   @override
@@ -87,7 +85,51 @@ class _DetectorPageState extends State<DetectorPage> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text("Esto es lo que puede detectar"),
+        elevation: 0,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: const <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black
+              ),
+              child: Text(
+                'Esta app tiene un modelo entrenado y listo para detectar por camara o galeria las siguientes cosas que estas listadas', 
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+
+            ListTile(title: Text("DOG")),
+            ListTile(title: Text("CAT")),
+            ListTile(title: Text("BIRD")),
+            ListTile(title: Text("WATER CLEAN")),
+            ListTile(title: Text("DIRTY WATER")),
+            ListTile(title: Text("WATER BOTTLE")),
+            ListTile(title: Text("PERSON WITH MASK")),
+            ListTile(title: Text("PERSON WITHOUT MASK")),
+            ListTile(title: Text("LAPTOP")),
+            ListTile(title: Text("BACKPACK")),
+            ListTile(title: Text("PEN")),
+            ListTile(title: Text("KEYBOARD")),
+            ListTile(title: Text("FILE CABINET")),
+            ListTile(title: Text("DESK LAMP")),
+            ListTile(title: Text("MONITOR")),
+            ListTile(title: Text("PAPER NOTEBOOK")),
+            ListTile(title: Text("MUG")),
+            ListTile(title: Text("PROJECTOR")),
+            ListTile(title: Text("PRINTER")),
+            ListTile(title: Text("DESKTOP CHAIR")),
+          ],
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -96,24 +138,19 @@ class _DetectorPageState extends State<DetectorPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
         
-              const SizedBox(height: 50),
-              const Text("Tauchable Machine CNN"),
+              const SizedBox(height: 30),
+              const Text("Detector de 20 cosas"),
               const SizedBox(height: 6),
-              const Text("Detector Things"),
+              const Text("Efrain May"),
               const SizedBox(height: 20),
               
               Center(
                 child: _loading ? const ContainerImage() : Column(
                   children: <Widget>[
-                    Container(
-                      height: 250,
-                      child: Image.file(_image),
-                    ),
+                    SizedBox(height: 450, child: Image.file(_image)),
                     const SizedBox(height: 20),
-                    // ignore: unnecessary_null_comparison
                     _output != null 
-                    ? 
-                    Text(
+                    ? Text(
                       '${_output[0]['label']}', 
                       style: const TextStyle(
                         color: Colors.black,
@@ -125,14 +162,14 @@ class _DetectorPageState extends State<DetectorPage> {
                 ),
               ),
         
-              Container(
+              SizedBox(
                 width: width,
                 child: Column(
                   children: <Widget>[
         
-                    DetectorButton(width: width - 100, title: "Tomar una Foto", onPressed: pickImage),
+                    DetectorButton(width: width - 100, title: "Desde Camara", onPressed: pickImage),
                     const SizedBox(height: 5),
-                    DetectorButton(width: width - 100, title: "Abrir camara", onPressed: pickGalleryImage),
+                    DetectorButton(width: width - 100, title: "Desde Galeria", onPressed: pickGalleryImage),
         
                   ],
                 ),

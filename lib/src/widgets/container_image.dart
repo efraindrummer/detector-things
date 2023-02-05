@@ -5,7 +5,7 @@ class ContainerImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 300,
       height: 450,
       child: Column(

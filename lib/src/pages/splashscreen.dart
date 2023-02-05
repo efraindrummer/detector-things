@@ -11,8 +11,8 @@ class Splashscreen extends StatelessWidget {
     return EasySplashScreen(
       logoWidth: 100,
       logo: Image.asset('assets/img/logo.png'),
-      title: Text(
-        "Detector Things",
+      title: const Text(
+        "Detector de Cosas",
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -20,9 +20,9 @@ class Splashscreen extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       showLoader: true,
-      loadingText: Text("Loading..."),
-      navigator: DetectorPage(),
-      durationInSeconds: 5,
+      loadingText: Text("Cargando..."),
+      navigator: const DetectorPage(),
+      durationInSeconds: 3,
     );
   }
 }
