@@ -7,7 +7,7 @@ class ContainerImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300,
-      height: 450,
+      height: 350,
       child: Column(
         children: [
           Image.asset("assets/img/logo.png"),

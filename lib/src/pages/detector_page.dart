@@ -17,9 +17,9 @@ class _DetectorPageState extends State<DetectorPage> {
   final picker = ImagePicker();
   late File _image;
   bool _loading = false;
-  List _output = [];
+  List? _output;
 
-  pickImage() async {
+  pickImageCamera() async {
     final image = await picker.pickImage(source: ImageSource.camera);
     if (image == null) return null;
     setState(() {
@@ -55,7 +55,6 @@ class _DetectorPageState extends State<DetectorPage> {
   }
 
   classifyImage(File image) async {
-
     final output = await Tflite.runModelOnImage(
       path: image.path,
       numResults: 19,
@@ -71,12 +70,10 @@ class _DetectorPageState extends State<DetectorPage> {
   }
 
   Future loadModel() async {
-    final resp = await Tflite.loadModel(
+    await Tflite.loadModel(
       model: 'assets/model_unquant.tflite',
       labels: 'assets/labels.txt',
     );
-
-    print(resp);
   }
 
   @override
@@ -99,7 +96,7 @@ class _DetectorPageState extends State<DetectorPage> {
                 color: Colors.black
               ),
               child: Text(
-                'Esta app tiene un modelo entrenado y listo para detectar por camara o galeria las siguientes cosas que estas listadas', 
+                'Esta app tiene un modelo entrenado y listo para detectar por Camara o Galeria las siguientes cosas que estas listadas', 
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -151,10 +148,11 @@ class _DetectorPageState extends State<DetectorPage> {
                     const SizedBox(height: 20),
                     _output != null 
                     ? Text(
-                      '${_output[0]['label']}', 
+                      'ESTO ES UN: ${_output![0]['label']}', 
                       style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 28
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
                       )
                     )
                     : Container()
@@ -167,8 +165,7 @@ class _DetectorPageState extends State<DetectorPage> {
                 child: Column(
                   children: <Widget>[
         
-                    DetectorButton(width: width - 100, title: "Desde Camara", onPressed: pickImage),
-                    const SizedBox(height: 5),
+                    DetectorButton(width: width - 100, title: "Desde Camara", onPressed: pickImageCamera),
                     DetectorButton(width: width - 100, title: "Desde Galeria", onPressed: pickGalleryImage),
         
                   ],
