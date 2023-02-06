@@ -1,5 +1,5 @@
-import 'package:detector_things/src/pages/detector_page.dart';
-import 'package:detector_things/src/pages/splashscreen.dart';
+import 'package:detector_things/src/pages/detector/detector_page.dart';
+import 'package:detector_things/src/pages/splash/splashscreen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());

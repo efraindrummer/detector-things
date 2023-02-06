@@ -1,5 +1,5 @@
 
-import 'package:detector_things/src/pages/detector_page.dart';
+import 'package:detector_things/src/pages/detector/detector_page.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 
